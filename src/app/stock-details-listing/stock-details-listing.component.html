@@ -1,0 +1,36 @@
+
+<form [formGroup]="queryForm">
+    <input type="text" formControlName="symbol"/>
+<input type="date" formControlName="fromDate">
+<input type="date" formControlName="toDate">
+<button (click)="getDetails()">Fetch Details</button>
+</form>
+
+<table *ngIf="showTable">
+<tr>
+    <th></th>
+    <th colspan="3" *ngFor="let date of datesArray; let i=index">{{convertDateFormat(date)}}</th>
+</tr>
+<tr><th></th>
+    <ng-container *ngFor="let date of datesArray; let i=index" > 
+    <th>price</th>
+    <th>volume</th>
+    <th>price change</th>
+    </ng-container>
+</tr>
+<tr *ngFor="let item of [].constructor(noOfResponsesInDay); let j = index">
+<ng-container>
+<td>{{calculateTime(datePricesMapping[0]['t'][j+1])}}</td>
+ <ng-container *ngFor="let date of datesArray; let i=index" > 
+ 
+    <td>{{datePricesMapping[i]['c'][j+1]}}</td>
+    <td>{{datePricesMapping[i]['v'][j+1]}}</td>
+    <td>{{(datePricesMapping[i]['c'][j+1] - datePricesMapping[i]['c'][1]).toFixed(2)}}</td>
+    </ng-container>
+    </ng-container>
+</tr>
+
+</table>
+
+<p id="display"></p>
+
